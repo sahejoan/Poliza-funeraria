@@ -65,8 +65,6 @@ class SolvenciaYAjustesTest(unittest.TestCase):
 
         db_service.init_db()
 
-        setup = auth_service.obtener_configuracion_administrador()
-        self.assertIsNone(setup)
         autenticado = auth_service.autenticar("admin", "admin123")
         self.assertIsNotNone(autenticado)
         self.assertEqual(autenticado[1:], ("admin", "Administrador", "admin"))
@@ -78,59 +76,6 @@ class SolvenciaYAjustesTest(unittest.TestCase):
         finally:
             conn.close()
         self.assertTrue(almacenada.startswith("pbkdf2_sha256$"))
-
-    def test_administrador_se_configura_sin_clave_predeterminada(self):
-        conn = db_service.obtener_conexion()
-        try:
-            conn.execute("DELETE FROM usuarios")
-            conn.commit()
-        finally:
-            conn.close()
-        setup = auth_service.obtener_configuracion_administrador()
-        self.assertEqual(setup["usuario"], "admin")
-        self.assertIsNone(setup["id"])
-
-        auth_service.configurar_administrador(
-            "admin", "Administradora", "UnaClaveSegura-2026!"
-        )
-        self.assertIsNone(auth_service.obtener_configuracion_administrador())
-        autenticado = auth_service.autenticar("admin", "UnaClaveSegura-2026!")
-        self.assertIsNotNone(autenticado)
-        self.assertEqual(autenticado[1:], ("admin", "Administradora", "admin"))
-        self.assertIsNone(auth_service.autenticar("admin", "OtraClaveSegura-2026!"))
-
-        conn = db_service.obtener_conexion()
-        try:
-            almacenada = conn.execute(
-                "SELECT password FROM usuarios WHERE usuario = 'admin'"
-            ).fetchone()[0]
-        finally:
-            conn.close()
-        self.assertTrue(almacenada.startswith("pbkdf2_sha256$"))
-        self.assertNotEqual(almacenada, "UnaClaveSegura-2026!")
-
-    def test_administrador_heredado_debe_configurar_una_clave_nueva(self):
-        conn = db_service.obtener_conexion()
-        try:
-            conn.execute(
-                "UPDATE usuarios SET password = ? WHERE usuario = 'admin'",
-                (hashlib.sha256(b"clave heredada").hexdigest(),),
-            )
-            conn.commit()
-        finally:
-            conn.close()
-
-        self.assertEqual(
-            auth_service.obtener_configuracion_administrador()["usuario"], "admin"
-        )
-        auth_service.configurar_administrador(
-            "admin", "Administrador", "NuevaClaveSegura-2026!"
-        )
-        self.assertIsNone(auth_service.autenticar("admin", "clave heredada"))
-        self.assertIsNotNone(
-            auth_service.autenticar("admin", "NuevaClaveSegura-2026!")
-        )
-        self.assertIsNone(auth_service.obtener_configuracion_administrador())
 
     def test_autenticacion_migra_hash_sha256_heredado(self):
         password = "Clave antigua de usuario"

@@ -10,9 +10,7 @@ from tkinter import ttk
 import tkinter.messagebox as mb
 import datetime
 from services.db_service import obtener_conexion, init_db, ContratoRepository
-from services.auth_service import (
-    autenticar, configurar_administrador, obtener_configuracion_administrador,
-)
+from services.auth_service import autenticar
 from services.cliente_service import ClienteService
 from services.contrato_service import ContratoService
 from utils.helpers import aplicar_estilo_treeview, centrar_ventana
@@ -122,94 +120,6 @@ class LoginWindow(ctk.CTkToplevel):
             mb.showerror("Error", "Usuario o contraseña incorrectos")
 
 
-class AdminSetupWindow(ctk.CTkToplevel):
-    """Crea el administrador inicial o reemplaza una clave heredada conocida."""
-
-    def __init__(self, parent, admin, on_success):
-        super().__init__(parent)
-        self.admin = admin
-        self.on_success = on_success
-        self.title("Configurar administrador")
-        self.geometry("460x520")
-        self.resizable(False, False)
-        self.grab_set()
-        self.protocol("WM_DELETE_WINDOW", self.cancelar)
-        centrar_ventana(self, 460, 520)
-        self.crear_interfaz()
-
-    def crear_interfaz(self):
-        card = ctk.CTkFrame(self, fg_color=("#FFFFFF", "#181c24"), corner_radius=16)
-        card.pack(fill="both", expand=True, padx=24, pady=24)
-        ctk.CTkLabel(
-            card, text="CONFIGURAR ACCESO DE ADMINISTRADOR",
-            font=("Segoe UI", 17, "bold"), text_color="#D4AF37",
-            wraplength=360,
-        ).pack(pady=(24, 8))
-        ctk.CTkLabel(
-            card,
-            text="Crea una contraseña propia de al menos 12 caracteres. "
-                 "No existe una clave predeterminada.",
-            font=("Segoe UI", 11), wraplength=360, justify="center",
-        ).pack(padx=16, pady=(0, 14))
-
-        form = ctk.CTkFrame(card, fg_color="transparent")
-        form.pack(fill="x", padx=28)
-        ctk.CTkLabel(form, text="Usuario administrador").pack(anchor="w")
-        self.usuario_entry = ctk.CTkEntry(form, placeholder_text="admin")
-        self.usuario_entry.pack(fill="x", pady=(2, 10))
-        self.usuario_entry.insert(0, self.admin["usuario"])
-
-        ctk.CTkLabel(form, text="Nombre").pack(anchor="w")
-        self.nombre_entry = ctk.CTkEntry(form, placeholder_text="Administrador")
-        self.nombre_entry.pack(fill="x", pady=(2, 10))
-        self.nombre_entry.insert(0, self.admin["nombre"] or "Administrador")
-
-        ctk.CTkLabel(form, text="Nueva contraseña").pack(anchor="w")
-        self.password_entry = ctk.CTkEntry(form, show="*", placeholder_text="12 caracteres o más")
-        self.password_entry.pack(fill="x", pady=(2, 10))
-        ctk.CTkLabel(form, text="Confirmar contraseña").pack(anchor="w")
-        self.confirmar_entry = ctk.CTkEntry(form, show="*")
-        self.confirmar_entry.pack(fill="x", pady=(2, 16))
-
-        ctk.CTkButton(
-            form, text="Guardar acceso seguro", command=self.guardar,
-            fg_color="#D4AF37", text_color="#101318",
-        ).pack(fill="x")
-
-    def guardar(self):
-        password = self.password_entry.get()
-        if password != self.confirmar_entry.get():
-            mb.showerror("Error", "Las contraseñas no coinciden.", parent=self)
-            return
-        try:
-            configurar_administrador(
-                self.usuario_entry.get(),
-                self.nombre_entry.get(),
-                password,
-            )
-        except ValueError as exc:
-            mb.showerror("No se pudo configurar", str(exc), parent=self)
-            return
-        except Exception as exc:
-            mb.showerror(
-                "Error al configurar",
-                f"No se pudo guardar el acceso del administrador:\n{exc}",
-                parent=self,
-            )
-            return
-        mb.showinfo(
-            "Acceso configurado",
-            "El administrador quedó configurado. Inicia sesión con el usuario y "
-            "la contraseña que acabas de establecer.",
-            parent=self,
-        )
-        self.destroy()
-        self.on_success()
-
-    def cancelar(self):
-        self.master.destroy()
-
-
 class App(ctk.CTk):
     """Aplicación principal"""
     
@@ -231,13 +141,7 @@ class App(ctk.CTk):
         aplicar_estilo_treeview()
         
         self.usuario_actual = None
-        admin_setup = obtener_configuracion_administrador()
-        if admin_setup:
-            self.admin_setup_window = AdminSetupWindow(
-                self, admin_setup, self.mostrar_login
-            )
-        else:
-            self.mostrar_login()
+        self.mostrar_login()
     
     def mostrar_login(self):
         self.login_window = LoginWindow(self, self.iniciar_sesion)

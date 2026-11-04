@@ -33,6 +33,8 @@ DATOS PARA INICIAR SESIÓN:
 * Usuario:     admin
 * Contraseña:  admin123
 
+El sistema abrirá directamente la pantalla de inicio de sesión.
+
 Por seguridad, el código del sistema es público. Cambie esta contraseña antes
 de guardar información real o permita acceso a otras personas.
 

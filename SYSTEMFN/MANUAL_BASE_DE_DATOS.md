@@ -50,9 +50,9 @@ Cuando corresponda, la inicialización registra:
 
 **Seguridad:** aunque la contraseña inicial se almacena con PBKDF2-HMAC-SHA256
 y una sal aleatoria, la clave `admin123` es pública y conocida. Cambie la clave
-antes de guardar información real. Las contraseñas SHA-256 heredadas se
-actualizan al iniciar sesión correctamente. Si el administrador `admin` aún
-tiene un hash heredado, el sistema solicita configurarlo al arrancar.
+antes de guardar información real. El programa abre directamente la pantalla
+de inicio de sesión. Las contraseñas SHA-256 heredadas se actualizan a PBKDF2
+al iniciar sesión correctamente.
 
 ## 2. Tipos y convenciones de datos
 
