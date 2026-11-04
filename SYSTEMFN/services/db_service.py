@@ -318,6 +318,19 @@ def init_db():
     if cursor.fetchone()[0] == 0:
         cursor.executemany("INSERT INTO inventario (nombre, stock, precio) VALUES (?, ?, ?)", INVENTARIO_INICIAL)
 
+    # Crear credencial inicial conocida. Los hashes siguen usando PBKDF2.
+    cursor.execute("SELECT COUNT(*) FROM usuarios")
+    if cursor.fetchone()[0] == 0:
+        from services.auth_service import hash_password
+
+        cursor.execute("""
+            INSERT INTO usuarios (usuario, password, nombre, rol, activo, fecha_creacion)
+            VALUES (?, ?, ?, 'admin', 1, ?)
+        """, (
+            "admin", hash_password("admin123"), "Administrador",
+            datetime.datetime.now().isoformat(),
+        ))
+
     # Insertar tasa de cambio por defecto
     cursor.execute("SELECT COUNT(*) FROM configuracion WHERE clave = 'tasa_cambio_usd_bs'")
     if cursor.fetchone()[0] == 0:

@@ -55,6 +55,30 @@ class SolvenciaYAjustesTest(unittest.TestCase):
         self.patch_db.stop()
         self.temp_dir.cleanup()
 
+    def test_inicializacion_crea_administrador_admin123_con_hash_seguro(self):
+        conn = db_service.obtener_conexion()
+        try:
+            conn.execute("DELETE FROM usuarios")
+            conn.commit()
+        finally:
+            conn.close()
+
+        db_service.init_db()
+
+        setup = auth_service.obtener_configuracion_administrador()
+        self.assertIsNone(setup)
+        autenticado = auth_service.autenticar("admin", "admin123")
+        self.assertIsNotNone(autenticado)
+        self.assertEqual(autenticado[1:], ("admin", "Administrador", "admin"))
+        conn = db_service.obtener_conexion()
+        try:
+            almacenada = conn.execute(
+                "SELECT password FROM usuarios WHERE usuario = 'admin'"
+            ).fetchone()[0]
+        finally:
+            conn.close()
+        self.assertTrue(almacenada.startswith("pbkdf2_sha256$"))
+
     def test_administrador_se_configura_sin_clave_predeterminada(self):
         conn = db_service.obtener_conexion()
         try:
@@ -88,10 +112,10 @@ class SolvenciaYAjustesTest(unittest.TestCase):
     def test_administrador_heredado_debe_configurar_una_clave_nueva(self):
         conn = db_service.obtener_conexion()
         try:
-            conn.execute("""
-                INSERT INTO usuarios (usuario, password, nombre, rol, fecha_creacion)
-                VALUES ('admin', ?, 'Administrador', 'admin', '2026-11-04')
-            """, (hashlib.sha256(b"clave heredada").hexdigest(),))
+            conn.execute(
+                "UPDATE usuarios SET password = ? WHERE usuario = 'admin'",
+                (hashlib.sha256(b"clave heredada").hexdigest(),),
+            )
             conn.commit()
         finally:
             conn.close()

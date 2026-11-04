@@ -214,9 +214,10 @@ Write-Host "====================================================================
 Write-Host "           ¡INSTALACION COMPLETADA EXITOSAMENTE!                     " -ForegroundColor Green
 Write-Host "======================================================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "PRIMER INICIO:" -ForegroundColor Yellow
-Write-Host "  Al abrir el sistema, crea un usuario y una contrasena de administrador." -ForegroundColor White
-Write-Host "  La contrasena debe tener al menos 12 caracteres; no hay una clave predeterminada." -ForegroundColor White
+Write-Host "DATOS PARA INICIAR SESION:" -ForegroundColor Yellow
+Write-Host "  * Usuario:     admin" -ForegroundColor White
+Write-Host "  * Contrasena:  admin123" -ForegroundColor White
+Write-Host "  IMPORTANTE: cambia esta clave antes de usar datos reales." -ForegroundColor Red
 Write-Host ""
 Write-Host "COMO ABRIR EL PROGRAMA:" -ForegroundColor Cyan
 Write-Host "  1. Haz doble clic en el acceso directo 'Memoriales Altagracia' en tu Escritorio." -ForegroundColor White

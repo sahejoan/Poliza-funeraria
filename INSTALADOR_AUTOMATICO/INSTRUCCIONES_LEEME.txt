@@ -28,12 +28,13 @@ Para abrir el sistema en cualquier momento:
 - Haz doble clic en "ABRIR_SISTEMA.bat" en la carpeta principal (funeraria).
 
 ----------------------------------------------------------------------
-CONFIGURAR EL ACCESO LA PRIMERA VEZ:
+DATOS PARA INICIAR SESIÓN:
 ----------------------------------------------------------------------
-Al abrir por primera vez, el sistema solicitará crear el usuario y la
-contraseña del administrador. Use una contraseña propia de al menos
-12 caracteres y guárdela en un lugar seguro. No hay una contraseña
-predeterminada.
+* Usuario:     admin
+* Contraseña:  admin123
+
+Por seguridad, el código del sistema es público. Cambie esta contraseña antes
+de guardar información real o permita acceso a otras personas.
 
 ----------------------------------------------------------------------
 ¿TIENES DUDAS O PROBLEMAS?

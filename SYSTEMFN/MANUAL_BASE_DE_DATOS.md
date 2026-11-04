@@ -45,13 +45,14 @@ Cuando corresponda, la inicialización registra:
 - Tres capillas iniciales: San José, La Paz y Santa Teresa.
 - Productos iniciales de inventario.
 - Una tasa de cambio inicial de `40.0` BS por USD, si aún no existe.
-- Si no existe un administrador, el primer inicio solicita crear su usuario y
-  contraseña. No se crea una clave predeterminada.
+- Si no hay usuarios, la inicialización crea el administrador `admin` con
+  contraseña inicial `admin123`.
 
-**Seguridad:** la nueva contraseña debe tener al menos 12 caracteres y se
-almacena con PBKDF2-HMAC-SHA256 y una sal aleatoria. Las contraseñas SHA-256
-heredadas se actualizan al iniciar sesión correctamente. Si el administrador
-`admin` aún tiene un hash heredado, el sistema solicita cambiarlo al arrancar.
+**Seguridad:** aunque la contraseña inicial se almacena con PBKDF2-HMAC-SHA256
+y una sal aleatoria, la clave `admin123` es pública y conocida. Cambie la clave
+antes de guardar información real. Las contraseñas SHA-256 heredadas se
+actualizan al iniciar sesión correctamente. Si el administrador `admin` aún
+tiene un hash heredado, el sistema solicita configurarlo al arrancar.
 
 ## 2. Tipos y convenciones de datos
 
