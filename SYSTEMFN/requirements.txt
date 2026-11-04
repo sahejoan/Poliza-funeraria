@@ -1,0 +1,7 @@
+# Dependencias para el Sistema de Gestión Funeraria (Memoriales Altagracia)
+customtkinter>=6.0.0
+reportlab>=4.4.0
+pandas>=3.0.0
+openpyxl>=3.1.5
+Pillow>=11.0.0
+

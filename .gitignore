@@ -1,0 +1,28 @@
+# Local databases and database backups may contain personal or financial data.
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.bak
+*.backup
+*.backup_*
+
+# Generated customer documents and reports.
+/SYSTEMFN/contratos_generados/
+/SYSTEMFN/reportes/
+
+# Obsolete project copy; publish only the active application.
+/SYSTEMFN_backup_*/
+
+# Python runtime artifacts and local environments.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local configuration and logs.
+.env
+.env.*
+!.env.example
+*.log

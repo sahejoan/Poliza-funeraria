@@ -1,0 +1,45 @@
+======================================================================
+    GUIA RAPIDA DE INSTALACION - SISTEMA MEMORIALES ALTAGRACIA
+======================================================================
+
+¡Hola! Este sistema está listo para funcionar en tu computadora con 
+tan solo un par de clics, sin necesidad de configuraciones complicadas.
+
+----------------------------------------------------------------------
+PASO 1: INSTALAR TODO (Solo se hace la primera vez)
+----------------------------------------------------------------------
+1. Entra a esta carpeta (INSTALADOR_AUTOMATICO).
+2. Haz DOBLE CLIC en el archivo:
+   👉 1_INSTALAR_TODO_AUTOMATICO.bat
+
+3. El instalador hará todo por ti automáticamente:
+   - Verificará si tienes Python (y si no lo tienes, lo descargará e instalará).
+   - Instalará todas las librerías necesarias (gráficos, PDFs, reportes Excel).
+   - Creará un acceso directo en tu Escritorio llamado "Memoriales Altagracia".
+
+----------------------------------------------------------------------
+PASO 2: ABRIR EL PROGRAMA
+----------------------------------------------------------------------
+Para abrir el sistema en cualquier momento:
+- Haz doble clic en el acceso directo de tu Escritorio "Memoriales Altagracia".
+  O bien:
+- Haz doble clic en "2_ABRIR_SISTEMA.bat" dentro de esta carpeta.
+  O bien:
+- Haz doble clic en "ABRIR_SISTEMA.bat" en la carpeta principal (funeraria).
+
+----------------------------------------------------------------------
+CONFIGURAR EL ACCESO LA PRIMERA VEZ:
+----------------------------------------------------------------------
+Al abrir por primera vez, el sistema solicitará crear el usuario y la
+contraseña del administrador. Use una contraseña propia de al menos
+12 caracteres y guárdela en un lugar seguro. No hay una contraseña
+predeterminada.
+
+----------------------------------------------------------------------
+¿TIENES DUDAS O PROBLEMAS?
+----------------------------------------------------------------------
+Si Windows muestra la pantalla azul de "Windows protegió su PC":
+1. Haz clic en "Más información".
+2. Haz clic en "Ejecutar de todas formas".
+(Esto es normal en Windows cuando se ejecutan instaladores locales creados en batch).
+======================================================================
